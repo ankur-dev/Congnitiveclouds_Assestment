@@ -22,7 +22,7 @@ public class Item extends Model implements Parcelable {
     @Expose
     private List<String> tags = new ArrayList<String>();
 
-    @Column(name = "ownerC", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
+    @Column(name = "owner", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     @SerializedName("owner")
     @Expose
     private Owner owner;
@@ -324,13 +324,14 @@ public class Item extends Model implements Parcelable {
         isFav = fav;
     }
 
-    public List<Item> getFavQuestionListFromDataBase() {
+    public static List<Item> getFavQuestionListFromDataBase() {
         return new Select().from(Item.class).execute();
     }
 
-    public static void deleteItemById(Long itemId) {
+    public static void deleteItemById(Item item) {
         try {
-            Item item = new Select().from(Item.class).where("id = ? ", itemId).executeSingle();
+//            Item item = new Select().from(Item.class).where("id = ? ", itemId).executeSingle();
+            item.getOwner().delete();
             item.delete();
         } catch (Exception e) {
             e.printStackTrace();
@@ -339,9 +340,14 @@ public class Item extends Model implements Parcelable {
 
     public static boolean isAlreadyAdded(int questionId) {
         List<Item> items = new Select().from(Item.class).execute();
-        for (Item item : items) {
-            if (item.questionId == questionId) {
-                return true;
+        if(items==null || items.size()<=0){
+            return false;
+        }
+        else {
+            for (Item item : items) {
+                if (item.questionId == questionId) {
+                    return true;
+                }
             }
         }
         return false;

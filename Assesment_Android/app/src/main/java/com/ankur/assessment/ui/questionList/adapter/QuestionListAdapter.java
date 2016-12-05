@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ankur.assessment.R;
 import com.ankur.assessment.interfaces.FragmentToActivityListener;
@@ -45,7 +46,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private FragmentToActivityListener mActivityListener;
     private Fragment mFragment;
 
-    public QuestionListAdapter(Context context, @NonNull List<Item> items, FragmentToActivityListener adapterToActivityListener , Fragment fragment) {
+    public QuestionListAdapter(Context context, @NonNull List<Item> items, FragmentToActivityListener adapterToActivityListener, Fragment fragment) {
         this.mQuestionList = items;
         mContext = context;
         mActivityListener = adapterToActivityListener;
@@ -138,21 +139,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mContext.startActivity(Intent.createChooser(share, mContext.getString(R.string.share_link_header)));
                     break;
                 case R.id.like_button:
-                    if (mQuestionList.get(getAdapterPosition()).isFav()) {
-                        mQuestionList.get(getAdapterPosition()).setFav(false);
-                        likeButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+                    if (mFragment instanceof FavQuestionListFragment) {
                         mActivityListener.deleteFavQuestionFromDataBase(mQuestionList.get(getAdapterPosition()));
-
-                        if (mFragment instanceof FavQuestionListFragment) {
-                            mQuestionList.remove(getAdapterPosition());
-                        }
+                        mQuestionList.remove(getAdapterPosition());
                         notifyDataSetChanged();
-
                     } else {
-                        mQuestionList.get(getAdapterPosition()).setFav(true);
-                        likeButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gery_color));
+                        Toast.makeText(mContext, "Question added to your fav list", Toast.LENGTH_LONG).show();
                         mActivityListener.saveFavQuestionIntoDataBase(mQuestionList.get(getAdapterPosition()));
-                        notifyDataSetChanged();
                     }
                     break;
 

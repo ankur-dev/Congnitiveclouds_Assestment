@@ -20,6 +20,7 @@ import com.ankur.assessment.model.Item;
 import com.ankur.assessment.ui.questionList.adapter.QuestionListPagerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,9 +145,13 @@ public class QuestionsListActivity extends AppCompatActivity implements Fragment
     @Override
     public void saveFavQuestionIntoDataBase(Item item) {
         if (!Item.isAlreadyAdded(item.getQuestionId())) {
+            item.setFav(true);
             item.getOwner().save();
             item.save();
         }
+
+        List<Item> items = Item.getFavQuestionListFromDataBase();
+        int size = items.size();
     }
 
     /*
@@ -155,7 +160,8 @@ public class QuestionsListActivity extends AppCompatActivity implements Fragment
     */
     @Override
     public void deleteFavQuestionFromDataBase(Item item) {
-        Item.deleteItemById(item.getId());
+        item.setFav(false);
+        Item.deleteItemById(item);
     }
 
     @Override
@@ -179,8 +185,8 @@ public class QuestionsListActivity extends AppCompatActivity implements Fragment
             if (fragment instanceof FavQuestionListFragment) {
                 Item item = new Item();
                 ArrayList<Item> itemArrayList = new ArrayList<>();
-                if (item.getFavQuestionListFromDataBase() != null) {
-                    itemArrayList.addAll(item.getFavQuestionListFromDataBase());
+                if (Item.getFavQuestionListFromDataBase() != null) {
+                    itemArrayList.addAll(Item.getFavQuestionListFromDataBase());
                 }
                 ((FavQuestionListFragment) fragment).updateList(itemArrayList);
             }
