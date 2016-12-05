@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/no_internetContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:orientation="vertical"
+    tools:ignore="ObsoleteLayoutParam" >
+
+    <RelativeLayout
+        android:id="@+id/no_network_strip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center"
+        android:padding="@dimen/dimen_10_dp">
+
+        <TextView
+            android:id="@+id/tv_noNetworkText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp"
+            android:textColor="@color/white"
+            android:text="@string/no_internet_connection_message" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/error_image"
+            android:layout_width="@dimen/no_network_image_dimen"
+            android:layout_height="@dimen/no_network_image_dimen"
+            android:layout_above="@+id/oops_something_went_wrong"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/no_connection"
+            android:contentDescription="@string/no_network_image" />
+
+        <TextView
+            android:id="@id/oops_something_went_wrong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dimen_20_dp"
+            android:text="@string/oops_something_went_wrong"
+            android:textColor="@color/gery_color"
+            android:textSize="@dimen/text_size_20" />
+
+        <Button
+            android:id="@+id/refresh_internet_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/retry_button_margin"
+            android:background="@color/colorPrimaryDark"
+            android:paddingBottom="@dimen/dimen_20_dp"
+            android:paddingLeft="@dimen/dimen_50_dp"
+            android:paddingRight="@dimen/dimen_50_dp"
+            android:paddingTop="@dimen/dimen_20_dp"
+            android:text="@string/retry"
+            android:textColor="@color/white"
+            android:textSize="@dimen/retry_text_size"
+          />
+    </LinearLayout>
+</RelativeLayout>

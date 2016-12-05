@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Assessment_Android</string>
+    <string name="no_internet_connection_message">No Connection</string>
+    <string name="oops_something_went_wrong">Oops something went worng</string>
+    <string name="check_your_internet">Check your connection</string>
+    <string name="retry">Retry</string>
+    <string name="no_network_image">no network  image</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_question_list">StackOver Questions</string>
+    <string name="loading_message">Loading…</string>
+    <string name="error_message">Oops Something went wrong</string>
+    <string name="search">search</string>
+    <string name="share">Share</string>
+    <string name="like">Like</string>
+    <string name="rating">Rating:</string>
+    <string name="activity_sort">Activity</string>
+    <string name="creation_sort">Creation</string>
+    <string name="votes_sort">Votes</string>
+    <string name="relevance_sort">Relevance</string>
+    <string name="ascending_sort">Ascending</string>
+    <string name="descending_sort">Descending</string>
+    <string name="share_link_header">Share link!</string>
+    <string name="splash_text">SPLASH</string>
+</resources>
