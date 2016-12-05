@@ -261,16 +261,21 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
     * searchString
      * */
     public void filterInQuestionList(String searchString) {
-        ArrayList<Item> filteredQuestionList = new ArrayList<>();
+        if(!TextUtils.isEmpty(searchString)) {
+            ArrayList<Item> filteredQuestionList = new ArrayList<>();
 
-        for (Item item : mQuestionArrayList) {
-            if (item.getTags() != null) {
-                for (String string : item.getTags()) {
-                    if (string.toLowerCase().contains(searchString.toLowerCase()))
-                        filteredQuestionList.add(item);
+            for (Item item : mQuestionArrayList) {
+                if (item.getTags() != null) {
+                    for (String string : item.getTags()) {
+                        if (string.toLowerCase().contains(searchString.toLowerCase()))
+                            filteredQuestionList.add(item);
+                    }
                 }
             }
+            mRecyclerViewAdapter.updateList(filteredQuestionList);
         }
-        mRecyclerViewAdapter.updateList(filteredQuestionList);
+        else {
+            mRecyclerViewAdapter.updateList(mQuestionArrayList);
+        }
     }
 }

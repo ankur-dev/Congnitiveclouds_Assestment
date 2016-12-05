@@ -91,6 +91,16 @@ public class QuestionsListActivity extends AppCompatActivity implements AdapterT
                 return false;
             }
         });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Fragment fragment = mPagerAdapter.getRegisteredFragment(0);
+                if (fragment instanceof QuestionListFragment)
+                    ((QuestionListFragment) fragment).filterInQuestionList("");
+                return false;
+            }
+        });
         return true;
     }
 
@@ -115,6 +125,7 @@ public class QuestionsListActivity extends AppCompatActivity implements AdapterT
             case ASCENDING:
                 orderType = AppConstants.ASCENDING_ORDER;
                 break;
+            case SEARCH:
             default:
                 return super.onOptionsItemSelected(item);
 

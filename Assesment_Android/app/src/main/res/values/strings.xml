@@ -12,6 +12,7 @@
     <string name="loading_message">Loading…</string>
     <string name="error_message">Oops Something went wrong</string>
     <string name="search">search</string>
+    <string name="sort">sort</string>
     <string name="share">Share</string>
     <string name="like">Like</string>
     <string name="rating">Rating:</string>

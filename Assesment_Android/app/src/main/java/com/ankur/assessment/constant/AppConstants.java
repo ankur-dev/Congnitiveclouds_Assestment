@@ -11,7 +11,8 @@ public class AppConstants {
         ACTIVITY,
         VOTES,
         DESCENDING,
-        ASCENDING
+        ASCENDING,
+        SEARCH
     }
 
 }
