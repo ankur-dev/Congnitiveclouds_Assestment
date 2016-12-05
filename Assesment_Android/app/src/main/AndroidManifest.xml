@@ -26,16 +26,15 @@
             android:name="AA_MODELS"
             android:value="com.ankur.assessment.domain.Item,com.ankur.assessment.domain.Owner" />
 
-        <activity android:name=".ui.SplashActivity">
+        <activity
+            android:name=".ui.questionList.QuestionsListActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.questionList.QuestionsListActivity"
-            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>
