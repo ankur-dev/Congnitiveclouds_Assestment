@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ankur.assessment.R;
-import com.ankur.assessment.interfaces.AdapterToActivityListener;
+import com.ankur.assessment.interfaces.FragmentToActivityListener;
 import com.ankur.assessment.model.Item;
 import com.ankur.assessment.ui.questionList.FavQuestionListFragment;
 import com.squareup.picasso.Picasso;
@@ -42,13 +42,13 @@ public class QuestionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<Item> mQuestionList;
     private Context mContext;
     private static final String DATE_FORMAT = "dd MMM, yyyy HH:mm";
-    private AdapterToActivityListener mActivityListener;
+    private FragmentToActivityListener mActivityListener;
     private Fragment mFragment;
 
-    public QuestionListAdapter(Context context, @NonNull List<Item> items, Fragment fragment) {
+    public QuestionListAdapter(Context context, @NonNull List<Item> items, FragmentToActivityListener adapterToActivityListener , Fragment fragment) {
         this.mQuestionList = items;
         mContext = context;
-        mActivityListener = (AdapterToActivityListener) context;
+        mActivityListener = adapterToActivityListener;
         mFragment = fragment;
     }
 

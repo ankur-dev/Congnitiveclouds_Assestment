@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 import com.ankur.assessment.R;
 import com.ankur.assessment.constant.AppConstants;
-import com.ankur.assessment.interfaces.AdapterToActivityListener;
+import com.ankur.assessment.interfaces.FragmentToActivityListener;
 import com.ankur.assessment.model.Item;
 import com.ankur.assessment.ui.questionList.adapter.QuestionListPagerAdapter;
 
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 /*
  * Created by Ankur on 12/04/2016.
 * */
-public class QuestionsListActivity extends AppCompatActivity implements AdapterToActivityListener, ViewPager.OnPageChangeListener {
+public class QuestionsListActivity extends AppCompatActivity implements FragmentToActivityListener, ViewPager.OnPageChangeListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -38,6 +38,7 @@ public class QuestionsListActivity extends AppCompatActivity implements AdapterT
 
     private QuestionListPagerAdapter mPagerAdapter;
     private Menu mMenu;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +74,11 @@ public class QuestionsListActivity extends AppCompatActivity implements AdapterT
         getMenuInflater().inflate(R.menu.home, menu);
         mMenu = menu;
         // Retrieve the SearchView and plug it into SearchManager
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -92,7 +93,7 @@ public class QuestionsListActivity extends AppCompatActivity implements AdapterT
             }
         });
 
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 Fragment fragment = mPagerAdapter.getRegisteredFragment(0);
@@ -155,6 +156,11 @@ public class QuestionsListActivity extends AppCompatActivity implements AdapterT
     @Override
     public void deleteFavQuestionFromDataBase(Item item) {
         Item.deleteItemById(item.getId());
+    }
+
+    @Override
+    public void closeSearchLayout() {
+        mSearchView.onActionViewCollapsed();
     }
 
 

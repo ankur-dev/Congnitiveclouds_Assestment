@@ -20,4 +20,6 @@ public interface QuestionListView extends BaseView {
     void showLazyPageLoading();
 
     void hideLazyPageLoading();
+
+    void onPullToRefresh();
 }

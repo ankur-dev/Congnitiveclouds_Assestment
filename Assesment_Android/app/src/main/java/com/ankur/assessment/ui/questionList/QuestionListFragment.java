@@ -2,10 +2,12 @@ package com.ankur.assessment.ui.questionList;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 
 import com.ankur.assessment.R;
 import com.ankur.assessment.common.BaseFragment;
+import com.ankur.assessment.interfaces.FragmentToActivityListener;
 import com.ankur.assessment.model.Item;
 import com.ankur.assessment.ui.questionList.adapter.QuestionListAdapter;
 import com.ankur.assessment.ui.questionList.presenter.QuestionListPresenter;
@@ -52,6 +55,8 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
 
     LinearLayout mFooterLoaderLayout;
     LinearLayout mFooterErrorLayout;
+    @BindView(R.id.pullRefreshLayout)
+    SwipeRefreshLayout mPullRefreshLayout;
     private View mFooterLoadingView;
 
     private QuestionListPresenter mPresenter;
@@ -63,10 +68,17 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
     private QuestionListAdapter mRecyclerViewAdapter;
 
     private boolean mLoadNext;
+    private FragmentToActivityListener mActivityListener;
 
 
     public QuestionListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivityListener = (FragmentToActivityListener) context;
     }
 
 
@@ -78,6 +90,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
         setLayout(inflater, R.layout.fragment_question_list);
         mQuestionArrayList = new ArrayList<>();
         setUpRecyclerView();
+        setUpPullToRefresh();
         setUpFooterLayout(inflater);
         mPresenter = new QuestionListPresenter(getActivity(), this);
         mOrderType = "desc";
@@ -86,10 +99,28 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
         return mBaseFragmentContainer;
     }
 
+    private void setUpPullToRefresh() {
+        mPullRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                mPresenter.onRefresh();
+            }
+        });
+        // Configure the refreshing colors
+        mPullRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+    }
+
     /*initialized recycler view
     * and register recycler view scroll listener*/
     private void setUpRecyclerView() {
-        mRecyclerViewAdapter = new QuestionListAdapter(getActivity(), mQuestionArrayList, this);
+        mRecyclerViewAdapter = new QuestionListAdapter(getActivity(), mQuestionArrayList,mActivityListener ,this);
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(ContextCompat.getDrawable(getActivity(), R.drawable.recycler_divider));
         mRVQuestionList.addItemDecoration(dividerItemDecoration);
         mRVLayoutManager = new LinearLayoutManager(getActivity());
@@ -160,6 +191,14 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
         } else {
             hidePageLoading();
         }
+    }
+
+    @Override
+    public void onPullToRefresh() {
+        mQuestionArrayList.clear();
+        mRecyclerViewAdapter.updateList(mQuestionArrayList);
+        mPullRefreshLayout.setRefreshing(false);
+        mActivityListener.closeSearchLayout();
     }
 
     /*
@@ -261,7 +300,7 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
     * searchString
      * */
     public void filterInQuestionList(String searchString) {
-        if(!TextUtils.isEmpty(searchString)) {
+        if (!TextUtils.isEmpty(searchString)) {
             ArrayList<Item> filteredQuestionList = new ArrayList<>();
 
             for (Item item : mQuestionArrayList) {
@@ -273,9 +312,9 @@ public class QuestionListFragment extends BaseFragment implements QuestionListVi
                 }
             }
             mRecyclerViewAdapter.updateList(filteredQuestionList);
-        }
-        else {
+        } else {
             mRecyclerViewAdapter.updateList(mQuestionArrayList);
         }
     }
+
 }

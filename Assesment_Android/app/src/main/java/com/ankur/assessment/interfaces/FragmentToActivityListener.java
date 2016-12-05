@@ -7,9 +7,11 @@ import com.ankur.assessment.model.Item;
  * <p>
  * interface for communication between fragment and activity
  */
-public interface AdapterToActivityListener {
+public interface FragmentToActivityListener {
 
     void saveFavQuestionIntoDataBase(Item item);
 
     void deleteFavQuestionFromDataBase(Item item);
+
+    void closeSearchLayout();
 }

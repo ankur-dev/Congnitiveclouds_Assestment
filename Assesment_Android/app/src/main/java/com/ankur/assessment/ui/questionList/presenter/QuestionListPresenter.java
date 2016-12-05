@@ -21,6 +21,7 @@ public class QuestionListPresenter implements ResponseListener {
     private int mPageIndex;
     private String mOrderType = "";
     private String mSortType = "";
+    private boolean isPullToRefresh = false;
     private UnAnswerQuestionResponse mQuestionResponseCollection;
 
     public QuestionListPresenter(Context context, QuestionListView questionListView) {
@@ -58,6 +59,9 @@ public class QuestionListPresenter implements ResponseListener {
 
             if (mQuestionResponseCollection.getItems() != null && mQuestionResponseCollection.getItems().size() > 0) {
                 mQuestionListView.hideLazyPageLoading();
+                if(isPullToRefresh){
+                    mQuestionListView.onPullToRefresh();
+                }
                 mQuestionListView.addToQuestionList(mQuestionResponseCollection.getItems());
                 mPageIndex++;
             } else {
@@ -97,5 +101,11 @@ public class QuestionListPresenter implements ResponseListener {
             mPageIndex = 1;
             getQuestionListFromServer(orderType, mSortType);
         }
+    }
+
+    public void onRefresh(){
+        mPageIndex = 1;
+        isPullToRefresh = true;
+        getQuestionListFromServer(mOrderType,mSortType);
     }
 }
